@@ -38,8 +38,13 @@ A proxy has been set up in `stocks` to proxy calls to `locahost:3333` which is t
 Please provide a short code review of the base `master` branch:
 
 1. What is done well?
+    Overall code is structured well, and components are present as in libs folder, so it can easily be accessed from stocks as well as from stocks-e2e if needed to write end to end tests
+
 2. What would you change?
+    I would change the UI, as its too raw at the moment, and not that appealing.
+
 3. Are there any code smells or problematic implementations?
+    Charts were not displaying at all, I needed to change 'Data' to 'chartsData' for ngIf directive in chart.component.html
 
 > Make a PR to fix at least one of the issues that you identify
 
