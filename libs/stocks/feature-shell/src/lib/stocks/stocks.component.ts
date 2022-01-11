@@ -1,5 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PriceQueryFacade } from '@coding-challenge/stocks/data-access-price-query';
 
 @Component({
@@ -8,6 +9,12 @@ import { PriceQueryFacade } from '@coding-challenge/stocks/data-access-price-que
   styleUrls: ['./stocks.component.css']
 })
 export class StocksComponent implements OnInit {
+
+
+
+  minDate: Date;
+  maxDate: Date;
+  
   stockPickerForm: FormGroup;
   symbol: string;
   period: string;
@@ -25,10 +32,12 @@ export class StocksComponent implements OnInit {
     { viewValue: 'One month', value: '1m' }
   ];
 
-  constructor(private fb: FormBuilder, private priceQuery: PriceQueryFacade) {
+  constructor(private fb: FormBuilder, private priceQuery: PriceQueryFacade, public datepipe: DatePipe) {
+    this.maxDate = new Date()
     this.stockPickerForm = fb.group({
       symbol: [null, Validators.required],
-      period: [null, Validators.required]
+      start: [null, Validators.required],
+      end: [null, Validators.required]
     });
   }
 
@@ -36,8 +45,8 @@ export class StocksComponent implements OnInit {
 
   fetchQuote() {
     if (this.stockPickerForm.valid) {
-      const { symbol, period } = this.stockPickerForm.value;
-      this.priceQuery.fetchQuote(symbol, period);
+      const { symbol, start, end} = this.stockPickerForm.value;
+      this.priceQuery.fetchQuote(symbol, start, end);
     }
   }
 }

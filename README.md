@@ -76,6 +76,8 @@ _**Implement this feature and make a PR from the branch `feat_custom_dates` to `
 
 > We need two date-pickers: "from" and "to". The date-pickers should not allow selection of dates after the current day. "to" cannot be before "from" (selecting an invalid range should make both dates the same value)
 
+I couldn't find the endpoint for specific date ranges. So, I fetched for max and then constraint the data on requested dates.
+
 ### Task 4
 
 ```
