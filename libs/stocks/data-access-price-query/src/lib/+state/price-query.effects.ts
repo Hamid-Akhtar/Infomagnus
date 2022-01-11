@@ -6,7 +6,7 @@ import {
 } from '@coding-challenge/stocks/data-access-app-config';
 import { Effect } from '@ngrx/effects';
 import { DataPersistence } from '@nrwl/nx';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import {
   FetchPriceQuery,
   PriceQueryActionTypes,
@@ -24,12 +24,23 @@ export class PriceQueryEffects {
       run: (action: FetchPriceQuery, state: PriceQueryPartialState) => {
         return this.httpClient
           .get(
-            `${this.env.apiURL}/beta/stock/${action.symbol}/chart/${
-              action.period
-            }?token=${this.env.apiKey}`
+            `${this.env.apiURL}/beta/stock/${action.symbol}/chart/max?token=${this.env.apiKey}`
           )
           .pipe(
-            map(resp => new PriceQueryFetched(resp as PriceQueryResponse[]))
+            map(resp => {
+              
+                // console.log(resp[1], typeof resp)
+                let arr = Object.values(resp)
+                let updated = arr.filter((item)=> {
+                  if((new Date(item.date) >= new Date(action.start)) && (new Date(item.date) <= new Date(action.end)) ){
+                    return item
+                  }
+                })
+                let data = new PriceQueryFetched(updated as PriceQueryResponse[])
+                
+                return data
+            })
+            
           );
       },
 

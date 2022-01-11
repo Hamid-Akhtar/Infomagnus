@@ -17,7 +17,7 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <!-- <mat-form-field>
     <mat-label>Favorite time period</mat-label>
     <mat-select formControlName="period">
       <mat-option
@@ -27,7 +27,22 @@
         {{ timePeriod.viewValue }}
       </mat-option>
     </mat-select>
+  </mat-form-field> -->
+
+  <div class="item item-1" fxFlex="50%" fxFlexOrder="1">
+    <mat-form-field [formGroup]="stockPickerForm">
+       <input matInput formControlName="start" [max]="maxDate" [matDatepicker]="picker" placeholder="Start Date" type="text" >
+       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+       <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+<div class="item item-1" fxFlex="50%" fxFlexOrder="1">
+  <mat-form-field [formGroup]="stockPickerForm">
+     <input matInput formControlName="end" [max]="maxDate" [min]="stockPickerForm.value.start" [matDatepicker]="picker2" placeholder="End Date" type="text">    
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+       <mat-datepicker #picker2></mat-datepicker>
   </mat-form-field>
+</div>
 
   <button (click)="fetchQuote()" mat-raised-button>Go</button>
 </form>
